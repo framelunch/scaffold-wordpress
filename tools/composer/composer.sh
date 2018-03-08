@@ -6,7 +6,7 @@
 ########################################
 cd $(dirname $0)
 ENV_FILE=../../.env
-CONTAINER_CUSTOMIZER_DIR=/var/www/html/wp-content/plugins/customizer
+CONTAINER_CUSTOMIZER_DIR=/var/www/html/wp-content/mu-plugins/customizer
 
 if [ ! -f $ENV_FILE ]; then
     echo "FILE '$ENV_FILE' does not exist."

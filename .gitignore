@@ -167,11 +167,11 @@ $RECYCLE.BIN/
 /wordpress/plugins/akismet/
 /wordpress/plugins/hello.php
 /wordpress/plugins/index.php
-/wordpress/plugins/customizer/log/
-/wordpress/plugins/customizer/vendor/
-/wordpress/plugins/customizer/composer.json
-/wordpress/plugins/customizer/composer.lock
-/wordpress/plugins/customizer/expand/google/credentials/
+/wordpress/mu-plugins/customizer/log/
+/wordpress/mu-plugins/customizer/vendor/
+/wordpress/mu-plugins/customizer/composer.json
+/wordpress/mu-plugins/customizer/composer.lock
+/wordpress/mu-plugins/customizer/expand/google/credentials/
 
 /wordpress/uploads/
 

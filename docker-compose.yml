@@ -14,6 +14,7 @@ services:
     volumes:
       - ./wordpress/themes/fl:/var/www/html/wp-content/themes/fl
       - ./wordpress/plugins:/var/www/html/wp-content/plugins
+      - ./wordpress/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./wordpress/uploads:/var/www/html/wp-content/uploads
       - ./tools/wordmove:/var/www/tools/wordmove
       - ./tools/shell-scripts/lib:/var/www/tools/shell-scripts
