@@ -10,7 +10,7 @@ if (isset($argv[1]) && intval($argv[1]) === 1) {
     $move_library = true;
 }
 
-$vendor_root = dirname(dirname(__DIR__)) . '/html/wp-content/plugins/customizer';
+$vendor_root = dirname(dirname(__DIR__)) . '/html/wp-content/mu-plugins/customizer';
 $web_root = dirname(dirname(__DIR__)) . '/html';
 require $vendor_root. '/vendor/autoload.php';
 
