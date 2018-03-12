@@ -510,6 +510,7 @@ function setCustoms($post_id)
                 // Keyのハイフンを置き換える
                 
                 $group_and_field_key = str_replace(SI_HYPHEN, SI_BOND, $group_and_field_key);
+                $group_and_field_key = str_replace($post_type.SI_BOND, '', $group_and_field_key);
                 // デフォルトで入るデータは弾く
                 if (in_array($group_and_field_key, ['_edit_lock', '_edit_last'])) {
                     continue;
@@ -541,7 +542,11 @@ function setCustoms($post_id)
                     // 値が1つもないなら無視
                     if (empty($field_value)) {
                         $si_customs[$post_id][$group_key][$field_key] = null;
-                    }                     
+                    } else if (is_array($field_value)) {
+                        $si_customs[$post_id][$group_key][$field_key] = array_shift($field_value);
+                    } else {
+                        $si_customs[$post_id][$group_key][$field_key] = $field_value;
+                    }                  
                 }
             } else {
                 // 複数グループなら、必ず同じ数ずつデータを保持しているので、Indexごとに値をまとめる

@@ -133,7 +133,7 @@ class CustomizerUtils
     static function title($title)
     {
         $sep = CustomizerDatabase::getOption('seo_base_title_separator', '｜', true);
-        return $title . $sep . get_bloginfo('name');
+        return empty($title) ? get_bloginfo('name') : $title . $sep . get_bloginfo('name');
     }
 
     static function createDir($dir)

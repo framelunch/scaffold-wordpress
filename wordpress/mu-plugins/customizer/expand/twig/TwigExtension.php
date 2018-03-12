@@ -10,6 +10,7 @@ class CustomizerTwigExtension extends Twig_Extension
             new Twig_Function('getTerms', [$this, 'getTerms']),
             new Twig_Function('getPosts', [$this, 'getPosts']),
             new Twig_Function('formSettingForOptions', [$this, 'formSettingForOptions']),
+            new Twig_Function('getAjaxUrl', [$this, 'getAjaxUrl']),
             new Twig_Function('easyAttrs', [$this, 'easyAttrs']),
             new Twig_Function('displayFormAdmin', [$this, 'displayFormAdmin']),
             new Twig_Function('displayFormFront', [$this, 'displayFormFront']),
@@ -28,6 +29,10 @@ class CustomizerTwigExtension extends Twig_Extension
             new Twig_Function('log', [$this, 'log']),
             new Twig_Function('scripts', [$this, 'scripts']),
             new Twig_Function('styles', [$this, 'styles']),
+            new Twig_Function('copyright_years', [$this, 'copyright_years']),
+            new Twig_Function('get_large_works_index', [$this, 'get_large_works_index']),
+            new Twig_Function('get_large_works_sp_index', [$this, 'get_large_works_sp_index']),
+            new Twig_Function('get_thumb_img', [$this, 'get_thumb_img']),
         ];
     }
 
@@ -44,6 +49,39 @@ class CustomizerTwigExtension extends Twig_Extension
         self::loadFile($template, $styles);
     }
 
+    static function copyright_years($start)
+    {
+        $nowYear = intval(date('Y'), 10);
+        $end = $nowYear !== $start ? " - $nowYear" : '';
+        return $start . $end;
+    }
+
+    static function get_large_works_index($last_index) {
+        $base_array = [1, 5, 3];
+        $base_array = array_filter($base_array, function($i) use ($last_index) {
+            return $i !== $last_index;
+        });
+        shuffle($base_array);
+        return $base_array[0];
+    }
+
+    static function get_large_works_sp_index($last_index) {
+        $base_array = [1, 2, 3];
+        $base_array = array_filter($base_array, function($i) use ($last_index) {
+            return $i !== $last_index;
+        });
+        shuffle($base_array);
+        return $base_array[0];
+    }
+
+    static function get_thumb_img($base) {
+        if (isset($base['thumb_img'])) {
+            return $base['thumb_img'];
+        } else {
+            return $base['img'];
+        }
+    }
+
     static private function loadFile($template, $files)
     {
         $real_dir = get_template_directory();
@@ -58,15 +96,16 @@ class CustomizerTwigExtension extends Twig_Extension
         }
     }
 
-    
+
     /**
      * 指定した条件のタグ一覧等の表示に利用
      * @param $condition_path
      * @return array
      */
-    static function getTerms($condition_path)
+    static function getTerms($condition_path, $override = [])
     {
-        return getTerms(CustomizerUtils::getCondition($condition_path));
+        $condition = CustomizerUtils::getCondition($condition_path);
+        return getTerms(array_replace_recursive($condition, $override));
     }
 
     /**
@@ -74,9 +113,10 @@ class CustomizerTwigExtension extends Twig_Extension
      * @param $condition_path
      * @return array
      */
-    static function getPosts($condition_path)
+    static function getPosts($condition_path, $override = [])
     {
-        return getPostsForTemplate(CustomizerUtils::getCondition($condition_path));
+        $condition = CustomizerUtils::getCondition($condition_path);
+        return getPostsForTemplate(array_replace_recursive($condition, $override));
     }
 
     /**
@@ -101,7 +141,7 @@ class CustomizerTwigExtension extends Twig_Extension
     {
         return get_submit_button( $text, $type, $name, $wrap, $other_attributes );
     }
-    
+
     /**
      * 画像判定
      * @param $file_path
@@ -168,7 +208,7 @@ class CustomizerTwigExtension extends Twig_Extension
         global $si_logger;
         $si_logger->develop($obj, $other_file, $keyword);
     }
-    
+
     /* *******************************
      *        Options Form設定
      * *******************************/
@@ -180,11 +220,11 @@ class CustomizerTwigExtension extends Twig_Extension
         } else {
             wp_enqueue_script('customizer-admin-upload', plugins_url('js/frontFileUpload.js', SI_PLUGIN_PATH), ['jquery']);
         }
-        
+
         $key = 'update_option_with_sequence_';
         $escaped = esc_attr($option_group_key);
         $key .= $escaped;
-        
+
         $config = is_null($config) ? CustomizerConfig::getFormSetting($escaped) : $config;
         $actions = CustomizerUtils::getRequire($config[$escaped], SI_FORM_ACTION);
 
@@ -219,12 +259,17 @@ class CustomizerTwigExtension extends Twig_Extension
         wp_nonce_field($key, $key);
     }
 
+    static function getAjaxUrl($action = 'send_mail')
+    {
+        return admin_url( 'admin-ajax.php') . "?action={$action}";
+    }
+
     static function getOption($key, $default = null, $is_single = true)
     {
         list($key, $value) = explode('-', $key);
         return CustomizerDatabase::getOption($key, $default, $is_single);
     }
-    
+
     /* *******************************
      *        HTML自動生成系
      * *******************************/
@@ -237,11 +282,11 @@ class CustomizerTwigExtension extends Twig_Extension
     {
         self::displayForm('CallFrontForm.twig', $paths);
     }
-    
+
     static function displayForm($template, $paths, $resource_type = SI_RESOURCE_TYPE_OPTION_WITH_SEQUENCES, $get_resource_args = [])
     {
         global $si_twig;
-        
+
         $config = self::getConfig($paths);
         $si_twig->display($template, [
             'root' => reset($paths),
@@ -270,7 +315,7 @@ class CustomizerTwigExtension extends Twig_Extension
         $paths = CustomizerUtils::asArray($paths);
         $root = count($paths) <= 1 ? array_shift($paths) : reset($paths);
         $config = CustomizerConfig::getFormSetting($root);
-        return CustomizerUtils::getConfig($config, $paths);   
+        return CustomizerUtils::getConfig($config, $paths);
     }
 
     static function getRenderElements($config, $paths = [], $resource_type = SI_RESOURCE_TYPE_OPTION_WITH_SEQUENCES, $get_resource_args = [])
@@ -281,7 +326,7 @@ class CustomizerTwigExtension extends Twig_Extension
 
     /**
      * 要素内容を全部一発で設定
-     * 
+     *
      * @param CustomizerElement $element
      * @param array $attrs
      * @param array $classes
@@ -303,7 +348,7 @@ class CustomizerTwigExtension extends Twig_Extension
         if (!in_array('attr', $ignore)) {
             $render .= self::renderAttributes($element, CustomizerUtils::asArray($attrs));
         }
-        
+
         return $render;
     }
 
@@ -322,13 +367,13 @@ class CustomizerTwigExtension extends Twig_Extension
             } else {
                 $values = CustomizerUtils::asArray($values);
                 $values_string = implode(' ', $values);
-                $render .= " {$key}={$values_string}";    
+                $render .= " {$key}={$values_string}";
             }
         }
         $render = htmlspecialchars($render);
         return $render;
     }
-    
+
     // -----------
     // - Classes -
     // -----------
@@ -339,7 +384,7 @@ class CustomizerTwigExtension extends Twig_Extension
         $class_string = implode(' ', $classes);
         if (!empty($class_string)) {
             $class_string = htmlspecialchars($class_string);
-            $render = " class=\"{$class_string}\""; 
+            $render = " class=\"{$class_string}\"";
         }
         return $render;
     }
@@ -354,10 +399,10 @@ class CustomizerTwigExtension extends Twig_Extension
          * @var $child CustomizerElement
          */
         foreach ($children as $child) {
-            $max_sequence = $child->sequence > $max_sequence ? 
+            $max_sequence = $child->sequence > $max_sequence ?
                 $child->sequence : $max_sequence;
         }
-        
+
         return $max_sequence;
     }
 
