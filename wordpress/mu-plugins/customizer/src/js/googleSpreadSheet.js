@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function initialize() {
-    var authButtons = document.querySelectorAll('.auth_google_client');
-    var createButtons = document.querySelectorAll('.create_spread_sheet');
+    var authButtons = [].slice.call(document.querySelectorAll('.auth_google_client'));
+    var createButtons = [].slice.call(document.querySelectorAll('.create_spread_sheet'));
     if (authButtons) {
       if (authButtons) {
         authButtons.forEach(function (authButton) {

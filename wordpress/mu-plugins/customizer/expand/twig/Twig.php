@@ -49,8 +49,17 @@ class CustomizerTwig
     static function prepare()
     {
         global $si_twig;
+        $page_type = CustomizerUtils::getPageType();
+        switch ($page_type) {
+            case SI_PAGE_TYPE_PAGE:
+                $name = get_post()->post_name;
+                break;
+            default:
+                $name = get_post_type();
+                break;
+        }
         $key = CustomizerTwig::getTemplateKey(
-            CustomizerUtils::getPageType(), get_post_type()
+            $page_type, $name
         );
         $si_twig->addGlobal('seo', getSeoMeta($key));
         $si_twig->addGlobal('basic', getBasicInfo());

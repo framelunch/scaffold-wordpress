@@ -35,10 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function bindEvent() {
-    var add_button = document.querySelectorAll('.field-add-button'),
-      del_button = document.querySelectorAll('.field-del-button'),
-      read_only_element = document.querySelectorAll('.readonly'),
-      check_boxes = document.querySelectorAll('.chk')
+    var add_button = [].slice.call(document.querySelectorAll('.field-add-button')),
+      del_button = [].slice.call(document.querySelectorAll('.field-del-button')),
+      read_only_element = [].slice.call(document.querySelectorAll('.readonly')),
+      check_boxes = [].slice.call(document.querySelectorAll('.chk'))
     ;
 
     if (add_button) {
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 削除した情報を保存する
-    $delete_target.querySelectorAll('.input').forEach(function (del_input) {
+    [].slice.call($delete_target.querySelectorAll('.input')).forEach(function (del_input) {
       var name = del_input.attributes['name']['nodeValue'];
       name = name.replace('[]', '');
       if (delete_names.indexOf(name) === -1) {

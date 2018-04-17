@@ -13,10 +13,6 @@ class CustomizerSetting
             'SEO設定', 'SEO設定', 'manage_options',
             SI_SETTING_SEO, 'CustomizerSetting::seo'
         );
-        add_options_page(
-            'TEST', 'TEST', 'manage_options',
-            'test', 'CustomizerSetting::test'
-        );
         
         $setting = CustomizerFormSettings::get('backbone');
         $setting = CustomizerConfig::getFieldSetting($setting, 'enable_services');
@@ -43,11 +39,6 @@ class CustomizerSetting
     static function seo()
     {
         CustomizerTwigExtension::displayFormAdmin(SI_SETTING_SEO);
-    }
-
-    static function test()
-    {
-        CustomizerTwigExtension::displayFormAdmin('test');
     }
 
     static function googleSpreadSheet()

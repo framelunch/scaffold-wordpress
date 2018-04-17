@@ -29,6 +29,7 @@ class CustomizerTwigExtension extends Twig_Extension
             new Twig_Function('log', [$this, 'log']),
             new Twig_Function('scripts', [$this, 'scripts']),
             new Twig_Function('styles', [$this, 'styles']),
+            new Twig_Function('isMainLng', [$this, 'isMainLng']),
             new Twig_Function('copyright_years', [$this, 'copyright_years']),
             new Twig_Function('get_large_works_index', [$this, 'get_large_works_index']),
             new Twig_Function('get_large_works_sp_index', [$this, 'get_large_works_sp_index']),
@@ -348,7 +349,18 @@ class CustomizerTwigExtension extends Twig_Extension
         if (!in_array('attr', $ignore)) {
             $render .= self::renderAttributes($element, CustomizerUtils::asArray($attrs));
         }
+        
+        return $render;
+    }
 
+    /**
+     * マルチWP
+     * メインサイトかどうか
+     * @return bool
+     */
+    static function isMainLng()
+    {
+        return is_main_site();
         return $render;
     }
 
