@@ -9,9 +9,5 @@ module.exports = Object.assign({}, base, {
   mode: 'production',
   plugins: [
     new webpack.LoaderOptionsPlugin({ debug: false }),
-    new webpack.DllReferencePlugin({
-      manifest: conf.script.dll.manifest,
-      context: process.cwd(),
-    }),
   ]
 });

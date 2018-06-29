@@ -5,11 +5,9 @@
   "author": "kaave <abe@framelunch.jp>",
   "license": "MIT",
   "scripts": {
-    "postinstall": "flow-typed install && npm run build:dll",
     "start": "NODE_ENV=development gulp",
     "build": "NODE_ENV=production gulp",
     "build:customizer": "NODE_ENV=production gulp customizer",
-    "build:dll": "webpack --progress --config tools/webpack/dll.js",
     "check": "run-s typecheck lint",
     "lint": "run-p lint:*",
     "lint:script": "eslint --ext .js,.jsx frontend/",
