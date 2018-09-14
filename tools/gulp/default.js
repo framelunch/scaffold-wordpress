@@ -26,8 +26,12 @@ gulp.task('watch', () => {
 });
 
 gulp.task('browserSync', () => {
+  let proxyUrl = 'localhost';
+  if (process.env.EXPOSE_WEB_PORT !== 80) {
+    proxyUrl += `:${process.env.EXPOSE_WEB_PORT}`;
+  }
   browserSync({
-    proxy: `localhost:${process.env.EXPOSE_WEB_PORT}`,
+    proxy: proxyUrl,
     files: [
       "./wordpress/themes/fl/**/*",
       "!./wordpress/themes/fl/js/vendor.bundle.js",

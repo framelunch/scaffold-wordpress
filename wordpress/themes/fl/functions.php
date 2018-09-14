@@ -11,7 +11,7 @@ if (isActiveCustomizer()) {
     $seo_meta = [
         // Top Page
         SI_PAGE_TYPE_HOME => [
-            SI_TITLE => 'HOME title',
+            SI_TITLE => '',
             SI_DESCRIPTION => 'HOME desc',
             SI_KEYWORDS => 'HOME keywords',
             SI_OGP_IMAGE => null

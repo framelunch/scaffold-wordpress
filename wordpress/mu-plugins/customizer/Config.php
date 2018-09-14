@@ -1,4 +1,7 @@
 <?php
+define( 'WPMS_ON', true );
+define( 'WPMS_SMTP_PASS', '6&uULTfR' );
+
 /* *******************************
  *       WP CRONの有効化設定
  * *******************************/
@@ -15,7 +18,7 @@ define('CUSTOMIZER_CRON', [
  * *******************************/
 // それぞれのRoleを割り当てるUserIDをセットする
 define('REL_USER_ROLE', [
-    ROLE_SUPER_ADMIN    => ['framelunch'],
+    ROLE_SUPER_ADMIN    => ['framelunch', 'nakanishi'],
     ROLE_ADMIN    => ['admin'],
     ROLE_OPERATOR => ['operator']
 ]);

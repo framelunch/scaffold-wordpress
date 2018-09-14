@@ -862,7 +862,7 @@ function getSeoMeta($key)
     $blog_name = get_bloginfo('name');
     $ogp_url = empty(get_the_permalink()) ? site_url() : get_the_permalink();
     $defaults = [
-        SI_TITLE => get_the_title(),
+        SI_TITLE => '',
         SI_DESCRIPTION => $def_desc . ' ' . $blog_name,
         SI_KEYWORDS => $def_keywords . ',' . $blog_name,
         SI_OGP_IMAGE => site_url() . $def_og_image,
