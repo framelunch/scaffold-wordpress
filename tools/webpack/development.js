@@ -8,9 +8,5 @@ module.exports = Object.assign({}, base, {
   devtool: 'inline-source-map',
   plugins: [
     new webpack.LoaderOptionsPlugin({ debug: true }),
-    new webpack.DllReferencePlugin({
-      manifest: conf.script.dll.manifest,
-      context: process.cwd(),
-    }),
   ]
 });
