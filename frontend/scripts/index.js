@@ -3,16 +3,8 @@ import { format } from 'date-fns';
 
 import './modules/DeviceChecker';
 
-class Main {
-  constructor() {
-    console.log(`Run: ${format(new Date(), 'YYYY-MM-DD HH:mm:ss.SSS')}`);
-    this.onDOMContentLoaded = this.onDOMContentLoaded.bind(this);
-  }
+console.log(`Run: ${format(new Date(), 'YYYY-MM-DD HH:mm:ss.SSS')}`);
 
-  onDOMContentLoaded() {
-    console.log(`onDOMContentLoaded: ${format(new Date(), 'YYYY-MM-DD HH:mm:ss.SSS')}`);
-  }
-}
-
-const main = new Main();
-window.addEventListener('DOMContentLoaded', main.onDOMContentLoaded);
+window.addEventListener('DOMContentLoaded', () => {
+  console.log(`onDOMContentLoaded: ${format(new Date(), 'YYYY-MM-DD HH:mm:ss.SSS')}`);
+});
