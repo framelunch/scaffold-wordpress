@@ -15,7 +15,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.production.json",
     "lint-staged": "lint-staged",
     "fix": "run-p fix:*",
-    "fix:style": "prettier --write 'frontend/styles/**/*.css'",
+    "fix:style": "stylelint --fix 'frontend/**/*.css'",
     "fix:script": "eslint --ext .js,.jsx,.ts,.tsx --fix frontend/scripts"
   },
   "husky": {
@@ -68,7 +68,10 @@
     "raw-loader": "^0.5.1",
     "require-dir": "^1.0.0",
     "run-sequence": "^2.1.0",
+    "stylelint": "^10.1.0",
     "stylelint-config-framelunch": "framelunch/stylelint-config-framelunch#v0.4.0",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-recess-order": "^2.0.2",
     "svg-inline-loader": "^0.8.0",
     "ts-loader": "^6.0.2",
     "ts-node": "^8.2.0",

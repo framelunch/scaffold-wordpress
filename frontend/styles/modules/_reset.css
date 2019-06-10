@@ -24,10 +24,10 @@ a:focus {
 button,
 input[type="button"],
 input[type="submit"] {
-    appearance: none;
+    background: transparent;
     border: 0;
     outline: none;
-    background: transparent;
+    appearance: none;
 }
 
 pre {
