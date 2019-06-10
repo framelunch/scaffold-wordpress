@@ -13,10 +13,15 @@
     "lint:script": "eslint --ext .js,.jsx,.ts,.tsx frontend/",
     "lint:style": "stylelint 'frontend/**/*.css'",
     "typecheck": "tsc --noEmit -p tsconfig.production.json",
+    "lint-staged": "lint-staged",
     "fix": "run-p fix:*",
     "fix:style": "prettier --write 'frontend/styles/**/*.css'",
-    "fix:script": "eslint --ext .js,.jsx,.ts,.tsx --fix frontend/scripts",
-    "precommit": "run-s typecheck lint-staged"
+    "fix:script": "eslint --ext .js,.jsx,.ts,.tsx --fix frontend/scripts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s typecheck lint-staged"
+    }
   },
   "browserslist": [
     "ie 11",
@@ -25,20 +30,6 @@
     "not ie <= 10",
     "not chrome 49"
   ],
-  "lint-staged": {
-    "subTaskConcurrency": 1,
-    "linters": {
-      "*.{js,jsx,ts,tsx}": [
-        "eslint --fix",
-        "git add"
-      ],
-      "*.css": [
-        "prettier --write",
-        "stylelint",
-        "git add"
-      ]
-    }
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
@@ -61,10 +52,10 @@
     "gulp-load-plugins": "^1.5.0",
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
-    "husky": "^0.14.3",
+    "husky": "^2.4.0",
     "imagemin-mozjpeg": "^7.0.0",
     "imagemin-pngquant": "^5.1.0",
-    "lint-staged": "^7.2.0",
+    "lint-staged": "^8.2.0",
     "npm-run-all": "^4.1.3",
     "postcss-color-hex-alpha": "^3.0.0",
     "postcss-custom-media": "^6.0.0",
