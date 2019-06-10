@@ -10,14 +10,18 @@
     "build:customizer": "NODE_ENV=production gulp customizer",
     "check": "run-s typecheck lint",
     "lint": "run-p lint:*",
-    "lint:script": "eslint --ext .js,.jsx frontend/",
+    "lint:script": "eslint --ext .js,.jsx,.ts,.tsx frontend/",
     "lint:style": "stylelint 'frontend/**/*.css'",
-    "typecheck": "flow",
-    "safe-guard": "lint-staged",
+    "typecheck": "tsc --noEmit -p tsconfig.production.json",
+    "lint-staged": "lint-staged",
     "fix": "run-p fix:*",
-    "fix:style": "prettier --write 'frontend/styles/**/*.css'",
-    "fix:script": "eslint --ext .ts --fix 'frontend/scripts/**/*.{js,jsx}'",
-    "precommit": "run-s typecheck safe-guard"
+    "fix:style": "stylelint --fix 'frontend/**/*.css'",
+    "fix:script": "eslint --ext .js,.jsx,.ts,.tsx --fix frontend/scripts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s typecheck lint-staged"
+    }
   },
   "browserslist": [
     "ie 11",
@@ -26,50 +30,32 @@
     "not ie <= 10",
     "not chrome 49"
   ],
-  "lint-staged": {
-    "subTaskConcurrency": 1,
-    "linters": {
-      "*.{js,jsx}": [
-        "eslint --ext .js,.jsx --fix",
-        "git add"
-      ],
-      "*.css": [
-        "prettier --write",
-        "stylelint",
-        "git add"
-      ]
-    }
-  },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "autoprefixer": "^8.6.4",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.5",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-date-fns": "^0.2.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
     "browser-sync": "^2.24.5",
     "cache-loader": "^1.2.2",
     "cssnano": "^3.10.0",
     "dotenv": "^6.0.0",
-    "eslint": "^4.4.0",
-    "eslint-config-framelunch": "framelunch/eslint-config-framelunch#v0.4.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype-errors": "^3.6.0",
-    "eslint-plugin-prettier": "^2.6.1",
-    "flow-bin": "^0.75.0",
-    "flow-typed": "^2.4.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "fork-ts-checker-webpack-plugin": "^1.3.5",
     "globby": "^8.0.1",
     "gulp": "^3.9.1",
     "gulp-imagemin": "^4.0.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
-    "husky": "^0.14.3",
+    "husky": "^2.4.0",
     "imagemin-mozjpeg": "^7.0.0",
     "imagemin-pngquant": "^5.1.0",
-    "lint-staged": "^7.2.0",
+    "lint-staged": "^8.2.0",
     "npm-run-all": "^4.1.3",
     "postcss-color-hex-alpha": "^3.0.0",
     "postcss-custom-media": "^6.0.0",
@@ -82,18 +68,23 @@
     "raw-loader": "^0.5.1",
     "require-dir": "^1.0.0",
     "run-sequence": "^2.1.0",
+    "stylelint": "^10.1.0",
     "stylelint-config-framelunch": "framelunch/stylelint-config-framelunch#v0.4.0",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-recess-order": "^2.0.2",
     "svg-inline-loader": "^0.8.0",
-    "uglifyjs-webpack-plugin": "^1.2.7",
+    "ts-loader": "^6.0.2",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.5.1",
     "url-loader": "^1.0.1",
     "webpack": "^4.13.0",
     "webpack-cli": "^3.0.8",
     "webpack-stream": "^4.0.3"
   },
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
-    "date-fns": "^1.29.0",
-    "jquery": "^3.2.1",
+    "core-js": "3",
+    "date-fns": "^1.30.1",
+    "jquery": "^3.4.1",
     "libraries-frontend-framelunch": "framelunch/libraries-frontend-framelunch#v0.3.3"
   }
 }

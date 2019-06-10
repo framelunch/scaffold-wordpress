@@ -1,13 +1,30 @@
+const path = require('path');
 const webpack = require('webpack');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const base = require('./base');
 const conf = require('../config');
 
-process.noDeprecation = true;
+const tsconfigPath = path.join(process.cwd(), 'tsconfig.production.json');
 
-module.exports = Object.assign({}, base, {
+module.exports = {
+  ...base,
   mode: 'production',
-  plugins: [
-    new webpack.LoaderOptionsPlugin({ debug: false }),
-  ]
-});
+  module: {
+    rules: [
+      ...base.module.rules,
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: [
+          'cache-loader',
+          {
+            loader: 'ts-loader',
+            options: { transpileOnly: true, configFile: tsconfigPath },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [new webpack.LoaderOptionsPlugin({ debug: false }), new ForkTsCheckerWebpackPlugin(tsconfigPath)],
+};
