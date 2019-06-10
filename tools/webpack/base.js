@@ -23,21 +23,10 @@ module.exports = {
   },
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.jsx', '.js']
+    extensions: ['.json', '.tsx', '.ts', '.jsx', '.js']
   },
   module: {
     rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: [
-          'cache-loader',
-          {
-            loader: 'babel-loader',
-            options: conf.script.babelOptions
-          }
-        ]
-      },
       {
         test: /\.(jpg|png|gif)$/,
         use: {

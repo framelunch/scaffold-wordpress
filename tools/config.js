@@ -3,17 +3,11 @@ const path = require('path');
 
 const { browserslist: browsers } = require('../package.json');
 
-
 module.exports = {
   copy: {
-    sources: [
-      'frontend/assets/**/*',
-    ],
-    sourcesProduction: [
-      'frontend/assets/**/*',
-      '!frontend/assets/**/*.{jpg,jpeg,gif,png}'
-    ],
-    outputDir: 'wordpress/themes/fl'
+    sources: ['frontend/assets/**/*'],
+    sourcesProduction: ['frontend/assets/**/*', '!frontend/assets/**/*.{jpg,jpeg,gif,png}'],
+    outputDir: 'wordpress/themes/fl',
   },
 
   image: {
@@ -29,7 +23,7 @@ module.exports = {
       floyd: 0,
       // フロイド-スタインバーグ・ディザリングを無効化するか
       // https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%AD%E3%82%A4%E3%83%89-%E3%82%B9%E3%82%BF%E3%82%A4%E3%83%B3%E3%83%90%E3%83%BC%E3%82%B0%E3%83%BB%E3%83%87%E3%82%A3%E3%82%B6%E3%83%AA%E3%83%B3%E3%82%B0
-      nofs: false
+      nofs: false,
     },
     // JPG形式: https://www.npmjs.com/package/imagemin-mozjpeg
     jpg: {
@@ -41,11 +35,10 @@ module.exports = {
     // GIF形式: https://github.com/imagemin/imagemin-gifsicle#imagemingifsicleoptionsbuffer
     gif: {
       // 最適化レベル 1(ちょっと)-3(そこそこ)で指定
-      optimizationLevel: 3
+      optimizationLevel: 3,
     },
     // SVG形式: https://github.com/svg/svgo#what-it-can-do
-    svg: {
-    },
+    svg: {},
   },
 
   style: {
@@ -62,40 +55,40 @@ module.exports = {
   },
 
   script: {
-    entries: ['frontend/scripts/*.{js,jsx}', '!frontend/scripts/_*.{js,jsx}'],
-    watches: ['frontend/scripts/*.{js,jsx}', 'frontend/scripts/**/*.{js,jsx}'],
+    entries: ['frontend/scripts/*.{js,jsx,ts,tsx}', '!frontend/scripts/_*.{js,jsx,ts,tsx}'],
+    watches: ['frontend/scripts/*.{js,jsx,ts,tsx}', 'frontend/scripts/**/*.{js,jsx,ts,tsx}'],
     outputDir: 'wordpress/themes/fl/js',
     babelOptions: {
       presets: [
-        ['env', {
-          // package.jsonで指定したbrowserslistを利用する
-          targets: {
-            browsers,
-            uglify: process.env.NODE_ENV === 'production'
+        [
+          'env',
+          {
+            // package.jsonで指定したbrowserslistを利用する
+            targets: {
+              browsers,
+              uglify: process.env.NODE_ENV === 'production',
+            },
+            // babel-polyfillのうちbrowserslistを踏まえて必要なものだけ読み込む
+            useBuiltIns: true,
+            // productionの場合tree shakingを有効化
+            modules: process.env.NODE_ENV === 'production' ? false : 'commonjs',
+            // developmentの際にデバッグ情報を出力する
+            debug: process.env.NODE_ENV === 'development',
           },
-          // babel-polyfillのうちbrowserslistを踏まえて必要なものだけ読み込む
-          useBuiltIns: true,
-          // productionの場合tree shakingを有効化
-          modules: process.env.NODE_ENV === 'production' ? false : 'commonjs',
-          // developmentの際にデバッグ情報を出力する
-          debug: process.env.NODE_ENV === 'development'
-        }],
-        'flow'
+        ],
+        'flow',
       ],
-      plugins: [
-        'transform-object-rest-spread',
-        'date-fns'
-      ],
+      plugins: ['transform-object-rest-spread', 'date-fns'],
       cacheDirectory: true,
-      babelrc: false
-    }
+      babelrc: false,
+    },
   },
 
   customizer: {
     entries: [
-      'wordpress/plugins/customizer/src/js/**/*.{js,jsx}',
-      '!wordpress/plugins/customizer/src/js/**/_*.{js,jsx}',
+      'wordpress/plugins/customizer/src/js/**/*.{js,jsx,ts,tsx}',
+      '!wordpress/plugins/customizer/src/js/**/_*.{js,jsx,ts,tsx}',
     ],
-    outputDir: 'wordpress/plugins/customizer/js'
-  }
+    outputDir: 'wordpress/plugins/customizer/js',
+  },
 };
