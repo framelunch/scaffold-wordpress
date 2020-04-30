@@ -93,7 +93,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "date-fns": "^1.29.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "libraries-frontend-framelunch": "framelunch/libraries-frontend-framelunch#v0.3.3"
   }
 }
